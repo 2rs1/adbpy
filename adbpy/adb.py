@@ -1,7 +1,7 @@
 from adbpy.socket import Socket
 from adbpy import Target, AdbError
 from adbpy.host_command import host_command
-from adbpy.devices import parse_device_list
+from adbpy.devices import parse_device_list, parse_forward_list
 from adbpy.adb_process import AdbProcess
 
 class Adb(object):
@@ -131,6 +131,12 @@ class Adb(object):
 
         with self.socket.Connect():
             return self._command_bool(cmd)
+
+    def list_forward(self, target=Target.ANY):
+        cmd = host_command(target, "list-forward")
+        print("Command: ", cmd)
+        with self.socket.Connect():
+            return parse_forward_list(self._command(cmd))
 
     def kill_forward(self, local, target=Target.ANY):
         cmd = host_command(target, "killforward:" + local)
