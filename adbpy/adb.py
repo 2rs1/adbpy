@@ -4,6 +4,7 @@ from adbpy.host_command import host_command
 from adbpy.devices import parse_device_list, parse_forward_list
 from adbpy.adb_process import AdbProcess
 
+
 class Adb(object):
 
     def __init__(self, address=None, adb_path="adb"):
@@ -33,7 +34,7 @@ class Adb(object):
     def _get_transport(target):
         transport = ''
         if target in Target.__dict__.values():
-            transport =  "-" + target
+            transport = "-" + target
         else:
             # If the target was a serial
             transport = ":" + target
