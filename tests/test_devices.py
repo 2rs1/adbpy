@@ -1,4 +1,4 @@
-from adbpy.devices import parse_device_list
+from adbpy.devices import parse_device_string
 
 def test_parse_device():
     input = "1ccb04bb\tdevice\n"
