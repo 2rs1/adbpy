@@ -63,11 +63,22 @@ def test_forward_rebind(adb):
                                             "forward:norebind:"
                                             "tcp:6001;tcp:36001")
 
+
+def test_devices_no_device_qualifiers(adb):
+    adb.socket.receive = MagicMock(return_value="950a8ad5\tdevice\n")
+    output = adb.devices(device_qualifiers=False)
+
+    assert output == {'950a8ad5': {
+        'device': None, 'device_status': 'device', 'model': None, 'product': None, 'usb': None}}
+
+
 def test_devices(adb):
     adb.socket.receive = MagicMock(return_value="950a8ad5\tdevice\n")
-    output = adb.devices()
+    output = adb.devices(device_qualifiers=True)
 
-    assert output == [("950a8ad5", "device")]
+    assert output == {'950a8ad5': {
+        'device': None, 'device_status': 'device', 'model': None, 'product': None, 'usb': None}}
+
 
 def test_start(adb):
     adb.process = MagicMock()
