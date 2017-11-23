@@ -1,7 +1,7 @@
 from adbpy.socket import Socket
 from adbpy import Target, AdbError
 from adbpy.host_command import host_command
-from adbpy.devices import parse_device_list, parse_forward_list
+from adbpy.devices import parse_device_string, parse_forward_string
 from adbpy.adb_process import AdbProcess
 
 
@@ -57,7 +57,7 @@ class Adb(object):
         if not self.process.running():
             raise AdbError("Failed to start Adb process")
 
-    def devices(self):
+    def devices(self, device_qualifiers=True):
         """
         Return a list of connected devices in the form (*serial*, *status*) where status can
         be any of the following:
@@ -69,10 +69,10 @@ class Adb(object):
         :returns: A list of tuples representing connected devices
         """
         devices = None
+        cmd = "host:devices-l" if device_qualifiers else "host:devices"
         with self.socket.Connect():
-            devices = self._command("host:devices")
-
-        return parse_device_list(devices)
+            devices = self._command(cmd)
+        return parse_device_string(devices)
 
     def version(self):
         """
@@ -135,9 +135,8 @@ class Adb(object):
 
     def list_forward(self, target=Target.ANY):
         cmd = host_command(target, "list-forward")
-        print("Command: ", cmd)
         with self.socket.Connect():
-            return parse_forward_list(self._command(cmd))
+            return parse_forward_string(self._command(cmd))
 
     def kill_forward(self, local, target=Target.ANY):
         cmd = host_command(target, "killforward:" + local)
