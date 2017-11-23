@@ -68,16 +68,16 @@ def test_devices_no_device_qualifiers(adb):
     adb.socket.receive = MagicMock(return_value="950a8ad5\tdevice\n")
     output = adb.devices(device_qualifiers=False)
 
-    assert output == {'950a8ad5': {
-        'device': None, 'device_status': 'device', 'model': None, 'product': None, 'usb': None}}
+    assert output == {"950a8ad5": {
+        "device": None, "device_status": "device", "model": None, "product": None, "usb": None}}
 
 
 def test_devices(adb):
     adb.socket.receive = MagicMock(return_value="950a8ad5\tdevice\nusb:25\nproduct:prod\nmodel:mod\ndevice:dev")
     output = adb.devices(device_qualifiers=True)
 
-    assert output == {'950a8ad5': {
-        'device': 'dev', 'device_status': 'device', 'model': 'mod', 'product': 'prod', 'usb': '25'}}
+    assert output == {"950a8ad5": {
+        "device": "dev", "device_status": "device", "model": "mod", "product": "prod", "usb": "25"}}
 
 
 def test_start(adb):
