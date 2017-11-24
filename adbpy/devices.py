@@ -1,6 +1,5 @@
 import re
 
-# device_regex = re.compile(r'(\w+)\t(device|offline|unauthorized)')
 device_regex = re.compile(r'(?P<device_id>\w+)\s+(?P<device_status>device|offline|unauthorized)\s+?(usb:(?P<usb>[a-zA-Z0-9\-\.]+)\s+product:(?P<product>\w+)\s+model:(?P<model>\w+)\s+device:(?P<device>\w+))?')
 forward_regex = re.compile(r'^(?P<device_id>\w+)?\s+tcp:(?P<local_port>\d+)?\s+tcp:(?P<remote_port>\d+)')
 
